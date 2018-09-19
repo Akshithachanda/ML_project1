@@ -75,12 +75,13 @@ class DT(BinaryClassifier):
         ### TODO: YOUR CODE HERE traverse the treee
         ###util.raiseNotDefined() use syntax like self.left.predict as used in other
         if self.isLeaf:
-            return self.label
-        
-        if X[self.feature] < 0.5:                ## deciding whether to go left or right based on value of X
-             self.left.predict(X)
+        	return self.label
         else:
-             self.right.predict(X)
+        	if X[self.feature] < 0.5:
+        		return self.left.predict(X)
+        	
+        	else:
+        		return self.right.predict(X)
                 
 
     def trainDT(self, X, Y, maxDepth, criterion, used):
@@ -107,11 +108,11 @@ class DT(BinaryClassifier):
                 ### TODO: YOUR CODE HERE
                 def entropy(y):
                     P = np.count_nonzero(y == 1)
-                    print("p")
-                    print(P)
+                    #print("p")
+                    #print(P)
                     N = np.count_nonzero(y == -1)
-                    print("n")
-                    print(N)
+                    #print("n")
+                    #print(N)
                     S = N+P
                     if(P > 0):
                         a = (-(P/S) * math.log((P/S),2))
@@ -148,11 +149,11 @@ class DT(BinaryClassifier):
                 # would go left and right?   check the feature value if its less than 0.5 goes left and greater than 0.5 goes rig
                 leftY  =   Y[X[:,d] <= 0.5]        ###util.raiseNotDefined()  x[:,d] slicing the matrix to give the dth column  
                 left_node = np.count_nonzero(leftY)
-                print("echo")
-                print(left_node)
+                #print("echo")
+                #print(left_node)
                 rightY =   Y[X[:,d] > 0.5]       ###util.raiseNotDefined()    ### TODO: YOUR CODE HERE
                 right_node = np.count_nonzero(rightY)
-                print(right_node)
+                #print(right_node)
 
                 # misclassification rate
                 if criterion == 'mr':
@@ -175,18 +176,18 @@ class DT(BinaryClassifier):
                 elif criterion == 'ig':
                     # now use information gain
                     Total = np.count_nonzero(Y)
-                    print(Total)
+                    #print(Total)
                     N1 = np.count_nonzero(leftY)
-                    print(N1)
+                    #print(N1)
                     P1 = np.count_nonzero(rightY)
-                    print(P1)
+                    #print(P1)
                     entropy_left = entropy(leftY)
-                    print(entropy_left)
+                    #print(entropy_left)
                     entropy_right = entropy(rightY)
-                    print(entropy_right)
+                    #print(entropy_right)
                     
-                    gain = entropy(Y) - (N1/Total)*entropy(leftY)-(P1/Total)*entropy(rightY)### TODO: YOUR CODE HERE afterwords
-                    print(gain)
+                    gain = (entropy(Y)) - ((N1/Total)*entropy(leftY))-((P1/Total)*entropy(rightY))### TODO: YOUR CODE HERE afterwords
+                    #print(gain)
                     # update min, max, bestFeature
                     if gain >= bestGain:
                         bestFeature = d
